@@ -30,7 +30,7 @@
             <h2 class="text-center"></h2>
             <!-- Start: Success Example -->
             <div class="form-group"><input class="form-control" type="text" name="name" placeholder="الاسم كامل">
-            @error('name')
+                            @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -39,7 +39,7 @@
             <!-- End: Success Example -->
             <!-- Start: Error Example -->
             <div class="form-group"><input class="form-control" type="email" name="email" placeholder="البريد الالكترونى">
-            @error('email')
+                                @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -48,7 +48,7 @@
             </div>
             <!-- End: Error Example -->
             <div class="form-group"><textarea class="form-control" name="message" placeholder="نص الرسالة" rows="14"></textarea>
-            @error('message')
+                            @error('message')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
