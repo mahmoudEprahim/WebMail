@@ -25,7 +25,7 @@
                     @guest
                 </ul><span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="{{url('/login')}}">دخول</a>
                 @if (Route::has('register'))
-                 <a class="btn btn-light action-button" role="button" href="/register">تسجيل</a></span></div>
+                 <a class="btn btn-light action-button" role="button" href="{{url('/register')}}">تسجيل</a></span></div>
                  @endif
                  @else
                  <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"> {{ Auth::user()->name }} </a>

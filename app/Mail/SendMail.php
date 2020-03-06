@@ -11,6 +11,7 @@ class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
 public $data;
+
     /**
      * Create a new message instance.
      *
@@ -19,6 +20,10 @@ public $data;
     public function __construct($data)
     {
         $this->data = $data;
+
+
+
+
     }
 
     /**
@@ -28,10 +33,10 @@ public $data;
      */
     public function build()
     {
-        return $this->from('mahmoud.3wad12@gmail.com')
-        ->subject('New Customer Equiry')
-        ->View('pages.MailContent')
-        ->with('data',$this->data);
-        // return $this->view('view.name');
+        // return $this->from(auth()->user()->email)
+        // ->subject('New_Email')
+        // ->View('pages.MailContent')
+        // ->with('data',$this->data);
+        return $this->View('pages.MailContent');
     }
 }

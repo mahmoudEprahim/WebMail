@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use Redirect;
 use App\Post;
+use App\Message;
 use session;
 use Alert;
 use Illuminate\Http\Request;
@@ -14,17 +15,19 @@ class PostsController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
+
+        public function index () {
+            $message = Post::where('user_id',auth()->user()->id)->paginate(3);
+
+            //  $posts= DB::table('posts')->paginate(6);
+            // $next = Post::orderBy('id', 'asc')->paginate(6) ;
+            return view ('posts.index' , compact('message'));
+        }
+
     public function create () {
         $sections= DB::table('sections')->get();
         return view ('posts.create', compact('sections'));
-    }
-
-    public function index () {
-       
-         $posts= DB::table('posts')->paginate(6);
-        $next = Post::orderBy('id', 'asc')->paginate(6) ;
-        return view ('posts.index' , compact('posts', 'next'));
     }
 
     //show psot
@@ -37,45 +40,56 @@ class PostsController extends Controller
     //edit post
     public function edit ($id) {
         $post = Post::find($id);
-        
+
         return view('posts.edit', compact('post'));
-    
+
     }
 
 
+
     public function add (request $request) {
+
         $this->validate(request (), [
-            'title' => 'required|max:200',
-            'body' => 'required|min:100',
-            'blogImage' => 'image|mimes:jpeg,bmp,png|max:1999',
-            'section' => 'required',
+            'to' => 'required',
+            'Adderss' => 'somtimes',
+            'message' => 'somtimes',
+            'file' => 'image|mimes:jpeg,bmp,png|max:1999',
+
         ]);
-      
+
         if ($request->hasFile('blogImage')) {
             $file = $request->file('blogImage') ;
             $ext = $file->getClientOriginalExtension() ;
             $filename = 'blog_image' . '_' . time() . '.' . $ext ;
             $file->storeAs('public/blogImage', $filename);
-          
+
         } else {
 
             $filename = 'noimage.png';
         }
 
         $add = new Post();
-        $add->title=request('title');
-        $add->body=request('body');
-        $add->image=$filename; 
-        $add->section=request('section');
+        $add->title=request('Adderss');
+
+        $add->body=request('message');
+        $add->from=auth()->user()->email;
+        $add->to=request('to');
+        $add->image=$filename;
         $add->user_id = auth()->user()->id;
-        
-        
-    
-    
+
+
+
+
         $add->save();
         return redirect ('/posts')->with('success', 'تم النشر!');
-       
-    
+
+
+    }
+    public function reply () {
+        $post = Post::find($id);
+
+        return view('posts.edit', compact('post'));
+
     }
     public function update(Request $request, $id) {
 

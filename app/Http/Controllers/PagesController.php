@@ -5,6 +5,8 @@ use DB;
 use Mail;
 use Redirect;
 use App\Contact;
+use App\Message;
+use App\Post;
 use Sessions;
 use Alert;
 use Illuminate\Http\Request;
@@ -43,24 +45,34 @@ public function profile () {
 
     //add new contact
     public function addcontact (request $request) {
-        $this->validate(request (), [
+
+        $data = $this->validate(request (), [
             'name' => 'required',
             'email' => 'required',
             'message' => 'required',
-        ]);
 
-            $add = new Contact();
-            $add->name=request('name');
-            $add->email=request('email');
-            $add->message=request('message');
+        ],[]);
+
+            $add = new Post();
+            $add->title=request('name');
+            $add->body=request('message');
+            $add->from=auth()->user()->email;
+            $add->to=request('email');
+            $add->user_id=auth()->user()->id;
 
 
-
+            // return $this->from(auth()->user()->email)
+            // ->subject('New_Email')
+            // ->View('pages.MailContent')
+            // ->with('data',$this->data);
             $add->save();
             $data = array(
                 'name' => $request->name,
                 'message' => $request->message,
                 'email' => $request->email,
+                'from' =>auth()->user()->email,
+
+
 
 
             );
