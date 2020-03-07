@@ -7,6 +7,8 @@ use App\Post;
 use App\Message;
 use session;
 use Alert;
+use Mail;
+use App\Mail\SendMail;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -18,11 +20,12 @@ class PostsController extends Controller
 
 
         public function index () {
-            $message = Post::where('user_id',auth()->user()->id)->paginate(3);
+            $outBox = Post::where('from',auth()->user()->email)->paginate(3);
+            $inbox = Post::where('to',auth()->user()->email)->paginate(3);
 
             //  $posts= DB::table('posts')->paginate(6);
             // $next = Post::orderBy('id', 'asc')->paginate(6) ;
-            return view ('posts.index' , compact('message'));
+            return view ('posts.index' , compact('outBox','inbox'));
         }
 
     public function create () {
@@ -49,13 +52,13 @@ class PostsController extends Controller
 
     public function add (request $request) {
 
-        $this->validate(request (), [
-            'to' => 'required',
-            'Adderss' => 'somtimes',
-            'message' => 'somtimes',
-            'file' => 'image|mimes:jpeg,bmp,png|max:1999',
+        $this->validate($request, [
+            'to' => 'sometimes',
+            'Adderss' => 'sometimes',
+            'message' => 'sometimes',
 
-        ]);
+
+        ],[]);
 
         if ($request->hasFile('blogImage')) {
             $file = $request->file('blogImage') ;
@@ -81,6 +84,17 @@ class PostsController extends Controller
 
 
         $add->save();
+        $data = array(
+            'name' => request('Adderss'),
+            'message' => request('message'),
+            'email' => request('to'),
+            'from' =>auth()->user()->email,
+
+
+
+
+        );
+            Mail::to($data['email'])->send(new SendMail($data));
         return redirect ('/posts')->with('success', 'تم النشر!');
 
 
@@ -112,7 +126,9 @@ class PostsController extends Controller
     public function destroy($id) {
 
         $post = POST::find($id) ;
+
         $post->delete();
+
         return redirect('/posts')->with('success', 'تم حذف المنشور بنجاح!');
 
     }

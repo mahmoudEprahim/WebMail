@@ -116,7 +116,50 @@
     <div class="col-md-9">
 
 <div id="InBox" class="tabcontent">
+    <table id="customers">
+      <tr>
+        <th>messages</th>
+        <th>show</th>
+        <th>Edit</th>
+        <th>delete</th>
+        <th>reply</th>
+      </tr>
 
+
+          @foreach ($inbox as $one)
+            <tr>
+
+
+
+
+          <td>{{$one->title}}</td>
+    <td>
+    <a href="{{ route('posts.show', $one->id) }}" class="btn btn-primary mr-3">Show</a>
+
+    </td>
+    <td>
+    <a href="{{ route('posts.edit', $one->id) }}" class="btn btn-info text-white ml-3">Edit</a>
+
+    </td>
+    <td>
+    <form action="{{ route('posts.destroy',$one->id) }}" method="POST" >
+        @csrf
+        @method('DELETE')
+                     <button type="submit" class="btn btn-danger" onclick="return confirm('Sure Want Delete?')">Delete</button>
+                     </form>
+    </td>
+
+    <td>
+    <a href="{{ route('posts.reply', $one->id) }}" class="btn btn-info text-white ml-3">reply</a>
+
+    </td>
+    </tr>
+            @endforeach
+
+
+
+
+    </table>
 
 </div>
 
@@ -131,7 +174,7 @@
       </tr>
 
 
-          @foreach ($message as $one)
+          @foreach ($outBox as $one)
             <tr>
 
 
