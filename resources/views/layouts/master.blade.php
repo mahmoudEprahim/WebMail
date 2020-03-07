@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>@yield('title')</title>
     <meta property="og:image" content="assets/img/123.jpg?h=e77dbe0fadaa4342ccfb211f35ea6887">
-    
+
     <meta property="og:type" content="website">
     <link rel="icon" type="image/jpeg" sizes="50x50" href="assets/img/azaz.jpg">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -26,6 +26,7 @@
     <script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js"
     integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k"
     crossorigin="anonymous"></script>
+        @stack('css')
 </head>
 
 <body>
@@ -34,9 +35,9 @@
 <div class="mb-3"></div>
     <div class="container">
     @include('sweetalert::alert')
-    @include('include.message')  
+    @include('include.message')
     </div>
-    
+
 @yield('contect')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -44,8 +45,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
     <script src="{{asset('assets/js/script.min.js')}}"></script>
-    
 
+    @stack('scripts')
     @include('include.footer')
 </body>
 

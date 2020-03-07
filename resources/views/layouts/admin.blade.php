@@ -22,18 +22,19 @@
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{{asset('assets/assets/css/site.min.css')}}">
-
+    @stack('css')
 </head>
 <body class="theme-cyan font-montserrat rtl">
 @include('include.admin')
 <div class="container">
     @include('sweetalert::alert')
-        
+
     </div>
 @yield('contect')
 
 
 <!-- Javascript -->
+    @stack('scripts')
 <script src="{{asset('assets/assets/bundles/libscripts.bundle.js')}}"></script>
 <script src="{{asset('assets/assets/bundles/vendorscripts.bundle.js')}}"></script>
 
